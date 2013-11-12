@@ -1,0 +1,5 @@
+%h1 Cards#index
+.fronts
+  = render partial: 'front', collection: @cards, as: :card
+.backs
+  = render partial: 'back', collection: @cards, as: :card
