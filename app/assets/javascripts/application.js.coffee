@@ -2,22 +2,33 @@
 //= require jquery_ujs
 //= require_tree .
 
-$.fn.cardID = ->
-  '.' + $(this).attr('class').match(/card_\d/)
+$.fn.card = ->
+  c = $(this).closest('.card').attr('class').match(/card_\d/)
+  $('.' + c)
 
 $.fn.nextCard = ->
-  next = $($(this).parent().cardID()).next()
+  next = $(this).card().next()
   if next.length
     next
   else
-    $('.fronts .card').first()
+    $('.card.front').first()
 
-$.fn.showBack = ->
+$.fn.prevCard = ->
+  prev = $(this).card().prev()
+  if prev.length
+    prev
+  else
+    $('.card.front').last()
+
+showBack = ->
   $('.back').addClass('hide')
-  $('.back' + $(this).cardID()).removeClass('hide')
+  $(this).card().removeClass('hide')
+showNext = ->
+  $(this).nextCard().trigger('click')
+showPrev = ->
+  $(this).prevCard().trigger('click')
 
 $ ->
-  $('.front').click ->
-    $(this).showBack()
-  $('.back .next').click ->
-    $(this).nextCard().showBack()
+  $('.card.front').click(showBack)
+  $('.next').click(showNext)
+  $('.prev').click(showPrev)
